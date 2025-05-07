@@ -1,103 +1,176 @@
-import { useAuth } from "@clerk/clerk-react"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { z } from "zod"
-import { Button } from "./ui/button"
+import { useAuth } from "@clerk/clerk-react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { chatSession } from "@/scripts";
 
-// const formSchema = z.object({
-//   position: z.string().min(1).max(100),
-//   description: z.string().min(10),
-//   experience: z.number(),
-//   techstack: z.string().min(1)
-// })
-
-// type formData = z.infer<typeof formSchema>
+// Ensure the environment variable is properly used
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 const FormMockInterview = ({ initial }: any) => {
+  const [loading, setLoading] = useState(false);
+  const [aiResponse, setAiResponse] = useState(null);
+  const { userId } = useAuth();
+  const positionRef = useRef<HTMLInputElement | null>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+  const experienceRef = useRef<HTMLInputElement | null>(null);
+  const techstackRef = useRef<HTMLInputElement | null>(null);
 
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
-  const { userId } = useAuth()
-  
-  const onsubmit = async () => {
-    try {
-      setLoading(true)
 
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setLoading(false)
+  const cleanJsonResponse = (responseText: string) => {
+    // Step 1: Trim any surrounding whitespace
+    let cleanText = responseText.trim();
+
+    // Step 2: Remove any occurrences of "json" or code block symbols (``` or `)
+    cleanText = cleanText.replace(/(json|```|`)/g, "");
+
+    // Step 3: Extract a JSON array by capturing text between square brackets
+    const jsonArrayMatch = cleanText.match(/\[.*\]/s);
+    if (jsonArrayMatch) {
+      cleanText = jsonArrayMatch[0];
+    } else {
+      throw new Error("No JSON array found in response");
     }
-  }
-  
+
+    // Step 4: Parse the clean JSON text into an array of objects
+    try {
+      return JSON.parse(cleanText);
+    } catch (error) {
+      throw new Error("Invalid JSON format: " + (error as Error)?.message);
+    }
+  };
+
+
+
+  const generateAiResponse = async (data: any) => {
+    const prompt = `
+      As an experienced prompt engineer, generate a JSON array containing 5 technical interview questions along with detailed answers based on the following job information. Each object in the array should have the fields "question" and "answer", formatted as follows:
+
+            [
+              { "question": "<Question text>", "answer": "<Answer text>" },
+              ...
+            ]
+
+            Job Information:
+            - Job Position: ${data?.position}
+            - Job Description: ${data?.description}
+            - Years of Experience Required: ${data?.experience}
+            - Tech Stacks: ${data?.techstack}
+
+            The questions should assess skills in ${data?.techstack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
+            `;
+
+    try {
+       const aiResult = await chatSession.sendMessage(prompt);
+      const cleanedResponse = cleanJsonResponse(aiResult.response.text());
+      console.log(cleanedResponse)
+    // const cleanedResponse = aiResult
+
+    return cleanedResponse;
+    } catch (err) {
+      console.error("Error:", err);
+      //@ts-ignore
+      setAiResponse("An error occurred while generating response.");
+    }
+  };
+
+  const onSubmit = async () => {
+    const data = {
+      position: positionRef.current?.value,
+      description: descriptionRef.current?.value,
+      experience: experienceRef.current?.value,
+      techstack: techstackRef.current?.value,
+    };
+
+    try {
+      setLoading(true);
+      await generateAiResponse(data);
+    } catch (error) {
+      console.error("Error submitting:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <h2 className="text-lg text-gray-800 font-semibold font-sans">
-        create a new mock interview
+        Create a New Mock Interview
       </h2>
 
-      <div className="w-full p8 rounded-lg flex flex-col items-start justify-start gap-6 shadow-md border-2 p-4 pt-8  mt-5">
+      <div className="w-full p8 rounded-lg flex flex-col items-start justify-start gap-6 shadow-md border-2 p-4 pt-8 mt-5">
         <div className="w-full space-y-4">
-          <div className="w-full flex justify-between flex-col ">
+          <div className="w-full flex justify-between flex-col">
             <div className="mb-3">
               <p>Job Role / Job Position</p>
             </div>
             <div className="">
               <input
+                ref={positionRef}
                 type="text"
                 className="h-12 border-1 rounded-md px-6 w-full"
-                placeholder="eg:- Full Stack developer"
+                placeholder="e.g., Full Stack Developer"
               />
             </div>
           </div>
 
-          <div className="w-full flex justify-between flex-col ">
+          <div className="w-full flex justify-between flex-col">
             <div className="mb-3">
               <p>Job Description</p>
             </div>
             <div className="">
               <textarea
+                ref={descriptionRef}
                 className="h-12 border-1 rounded-md pt-2 pl-6 w-full"
-                placeholder="describe your job role..."
+                placeholder="Describe your job role..."
               />
             </div>
           </div>
 
-          <div className="w-full flex justify-between flex-col ">
+          <div className="w-full flex justify-between flex-col">
             <div className="mb-3">
-              <p>experience</p>
+              <p>Experience</p>
             </div>
             <div className="">
               <input
-                type="Number"
+                type="number"
+                ref={experienceRef}
                 className="h-12 border-1 rounded-md px-6 w-full"
-                placeholder="eg:- 4"
+                placeholder="e.g., 4"
               />
             </div>
           </div>
 
-          <div className="w-full flex justify-between flex-col ">
+          <div className="w-full flex justify-between flex-col">
             <div className="mb-3">
-              <p>techstack</p>
+              <p>Tech Stack</p>
             </div>
             <div className="">
               <input
+                ref={techstackRef}
                 type="text"
                 className="h-12 border-1 rounded-md px-6 w-full"
-                placeholder="eg:- Full Stack developer"
+                placeholder="e.g., Full Stack Developer"
               />
             </div>
           </div>
 
           <div className="w-full flex items-center justify-end">
-            <Button size={"sm"} variant={'outline'} >
-              create
+            <Button size={"sm"} variant={"outline"} onClick={onSubmit}>
+              {loading ? "Loading..." : "Create"}
             </Button>
           </div>
         </div>
       </div>
+
+      {aiResponse && (
+        <div className="mt-5">
+          <h3 className="font-semibold">AI Response:</h3>
+          <pre>{aiResponse}</pre>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default FormMockInterview
+export default FormMockInterview;
