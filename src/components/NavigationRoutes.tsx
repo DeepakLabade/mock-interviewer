@@ -8,22 +8,23 @@ interface navigationRoutesProps {
 
 const NavigationRoutes = ({isMobile = false}: navigationRoutesProps) => {
   return (
-    <ul className={cn("flex items-center gap-6")}>
+    <ul className={cn("flex items-center gap-6 ")}>
       {MainRoutes.map((route) => (
         <NavLink
           key={route.href}
           to={route.href}
-          className={({ isActive }) => 
-          cn("text-base text-neutral-600",
-            isActive && "text-neutral-900 font-semibold"
-          )
-        } 
+          className={({ isActive }) =>
+            cn(
+              "text-base text-white",
+              isActive && "text-[#6D28D9] font-semibold"
+            )
+          }
         >
           {route.label}
         </NavLink>
       ))}
     </ul>
-  )
+  );
 }
 
 export default NavigationRoutes

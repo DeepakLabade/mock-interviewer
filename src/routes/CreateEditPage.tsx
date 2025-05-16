@@ -12,10 +12,10 @@ export const CreateEditPage = () => {
     const fetchInterview = async () => {
       if (interviewId) {
         try {
-          const interviewDoc = await getDoc(doc(db, "interviews", interviewId))
-          if (interviewDoc) {
-            setInterview({...interviewDoc.data()})
-          }
+          // const interviewDoc = await getDoc(doc(db, "interviews", interviewId))
+          // if (interviewDoc) {
+          //   setInterview({...interviewDoc.data()})
+          // }
         } catch (error) {
           console.log(error)
         }
@@ -26,7 +26,7 @@ export const CreateEditPage = () => {
   }, [interviewId])
 
   return (
-    <div>
+    <div className='text-white'>
       <FormMockInterview intial={interview} />
     </div>
   )

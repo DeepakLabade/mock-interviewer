@@ -1,11 +1,10 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { chatSession } from "@/scripts";
 
 // Ensure the environment variable is properly used
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+// const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 const FormMockInterview = ({ initial }: any) => {
   const [loading, setLoading] = useState(false);
@@ -62,7 +61,7 @@ const FormMockInterview = ({ initial }: any) => {
 
     try {
        const aiResult = await chatSession.sendMessage(prompt);
-      const cleanedResponse = cleanJsonResponse(aiResult.response.text());
+      const cleanedResponse = cleanJsonResponse(aiResult.response.text().trim());
       console.log(cleanedResponse)
     // const cleanedResponse = aiResult
 
@@ -94,11 +93,11 @@ const FormMockInterview = ({ initial }: any) => {
 
   return (
     <div>
-      <h2 className="text-lg text-gray-800 font-semibold font-sans">
+      <h2 className="text-lg text-gray-200 font-semibold font-sans">
         Create a New Mock Interview
       </h2>
 
-      <div className="w-full p8 rounded-lg flex flex-col items-start justify-start gap-6 shadow-md border-2 p-4 pt-8 mt-5">
+      <div className="w-full bg-[#171717] p8 rounded-lg flex flex-col items-start justify-start gap-6 shadow-md border-2 p-4 pt-8 mt-5 border-[#2E2F2F]">
         <div className="w-full space-y-4">
           <div className="w-full flex justify-between flex-col">
             <div className="mb-3">
@@ -108,7 +107,7 @@ const FormMockInterview = ({ initial }: any) => {
               <input
                 ref={positionRef}
                 type="text"
-                className="h-12 border-1 rounded-md px-6 w-full"
+                className="h-12 border-1 rounded-md text-white border-[#2E2F2F] px-6 w-full"
                 placeholder="e.g., Full Stack Developer"
               />
             </div>
@@ -121,7 +120,7 @@ const FormMockInterview = ({ initial }: any) => {
             <div className="">
               <textarea
                 ref={descriptionRef}
-                className="h-12 border-1 rounded-md pt-2 pl-6 w-full"
+                className="h-12 border-1 rounded-md border-[#2E2F2F] pt-2 pl-6 w-full"
                 placeholder="Describe your job role..."
               />
             </div>
@@ -135,7 +134,7 @@ const FormMockInterview = ({ initial }: any) => {
               <input
                 type="number"
                 ref={experienceRef}
-                className="h-12 border-1 rounded-md px-6 w-full"
+                className="h-12 border-1 border-[#2E2F2F] rounded-md px-6 w-full"
                 placeholder="e.g., 4"
               />
             </div>
@@ -149,14 +148,14 @@ const FormMockInterview = ({ initial }: any) => {
               <input
                 ref={techstackRef}
                 type="text"
-                className="h-12 border-1 rounded-md px-6 w-full"
+                className="h-12 border-1 border-[#2E2F2F] rounded-md px-6 w-full"
                 placeholder="e.g., Full Stack Developer"
               />
             </div>
           </div>
 
           <div className="w-full flex items-center justify-end">
-            <Button size={"sm"} variant={"outline"} onClick={onSubmit}>
+            <Button size={"sm"} variant={"secondary"} onClick={onSubmit}>
               {loading ? "Loading..." : "Create"}
             </Button>
           </div>

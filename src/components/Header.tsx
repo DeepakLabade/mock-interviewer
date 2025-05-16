@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/clerk-react"
-import { Container } from "./Container"
+import { Container } from "./container"
 import { cn } from "@/lib/utils"
 import LogoContainer from "./LogoContainer"
 import NavigationRoutes from "./NavigationRoutes"
@@ -12,11 +12,14 @@ const Header = () => {
   const {userId} = useAuth()
 
   return (
-    <header className={cn("w-full border-b duration-150 transition-all ease-in-out")}>
+    <header
+      className={cn(
+        "w-full border-b duration-150 transition-all ease-in-out flex bg-[#0A0A0A] border-slate-800"
+      )}
+    >
       <Container>
-        <div className="flex items-center gap-4 w-full">
-
-          <LogoContainer />
+        <div className="flex items-center gap-4 w-full justify-center">
+          {/* <LogoContainer /> */}
 
           <nav className="hidden md:flex items-center gap-3">
             <NavigationRoutes />
@@ -24,27 +27,25 @@ const Header = () => {
             {userId && (
               <NavLink
                 to={"/generate"}
-                className={({ isActive }) => 
-                  cn("text-base text-neutral-600",
-                    isActive && "text-neutral-900 font-semibold"
+                className={({ isActive }) =>
+                  cn(
+                    "text-base text-white",
+                    isActive && "text-[#6D28D9] font-semibold"
                   )
-                } 
+                }
               >
                 take an interview
               </NavLink>
             )}
           </nav>
 
-          <div className="ml-auto felx items-center gap-6">
+          {/* <div className="ml-auto felx items-center gap-6">
             <ProfileContainer />
-
-            <ToggleContainer />
-          </div>
-
+          </div> */}
         </div>
       </Container>
     </header>
-  )
+  );
 }
 
 export default Header
