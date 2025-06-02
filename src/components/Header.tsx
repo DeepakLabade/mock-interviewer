@@ -1,11 +1,9 @@
 import { useAuth } from "@clerk/clerk-react"
 import { Container } from "./container"
 import { cn } from "@/lib/utils"
-import LogoContainer from "./LogoContainer"
 import NavigationRoutes from "./NavigationRoutes"
 import { NavLink } from "react-router-dom"
 import ProfileContainer from "./ProfileContainer"
-import ToggleContainer from "./ToggleContainer"
 
 const Header = () => {
 
@@ -39,9 +37,9 @@ const Header = () => {
             )}
           </nav>
 
-          {/* <div className="ml-auto felx items-center gap-6">
+          <div className="ml-auto flex items-center gap-6">
             <ProfileContainer />
-          </div> */}
+          </div>
         </div>
       </Container>
     </header>

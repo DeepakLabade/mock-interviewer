@@ -10,6 +10,7 @@ import MainLayout from './layouts/MainLayout'
 import Generate from './components/Generate'
 import Dashboard from './routes/Dashboard'
 import { CreateEditPage } from './routes/CreateEditPage'
+import MockInterview from './routes/MockInterview'
 
 function App() {
  return(
@@ -28,6 +29,7 @@ function App() {
           <Route element={<Generate />} path='/generate'>
             <Route index element={<Dashboard />} />
             <Route path=':interviewId' element={<CreateEditPage />} />
+            <Route path='interview/start' element={<MockInterview />} />
           </Route>
         </Route>
 

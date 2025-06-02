@@ -2,28 +2,29 @@ import { useAuth } from "@clerk/clerk-react";
 import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { chatSession } from "@/scripts";
+import { useInterviewContext } from "../context/InterviewContext"
+import { QAItem } from "../context/InterviewContext";
 
 // Ensure the environment variable is properly used
 // const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 const FormMockInterview = ({ initial }: any) => {
+  const { setQaList } = useInterviewContext();
   const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
   const [aiResponse, setAiResponse] = useState(null);
   const { userId } = useAuth();
   const positionRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
   const experienceRef = useRef<HTMLInputElement | null>(null);
   const techstackRef = useRef<HTMLInputElement | null>(null);
+  //@ts-ignore
+  const newList = useRef();
 
 
   const cleanJsonResponse = (responseText: string) => {
-    // Step 1: Trim any surrounding whitespace
     let cleanText = responseText.trim();
-
-    // Step 2: Remove any occurrences of "json" or code block symbols (``` or `)
     cleanText = cleanText.replace(/(json|```|`)/g, "");
-
-    // Step 3: Extract a JSON array by capturing text between square brackets
     const jsonArrayMatch = cleanText.match(/\[.*\]/s);
     if (jsonArrayMatch) {
       cleanText = jsonArrayMatch[0];
@@ -31,7 +32,6 @@ const FormMockInterview = ({ initial }: any) => {
       throw new Error("No JSON array found in response");
     }
 
-    // Step 4: Parse the clean JSON text into an array of objects
     try {
       return JSON.parse(cleanText);
     } catch (error) {
@@ -62,15 +62,23 @@ const FormMockInterview = ({ initial }: any) => {
     try {
        const aiResult = await chatSession.sendMessage(prompt);
       const cleanedResponse = cleanJsonResponse(aiResult.response.text().trim());
-      console.log(cleanedResponse)
+      // console.log(cleanedResponse)
     // const cleanedResponse = aiResult
-
+      newList.current = cleanedResponse;
+      console.log(newList.current)
+      //@ts-ignore
+      setQaList(cleanedResponse);
     return cleanedResponse;
     } catch (err) {
       console.error("Error:", err);
       //@ts-ignore
       setAiResponse("An error occurred while generating response.");
     }
+  };
+
+  const handleReplace = () => {
+    //@ts-ignore
+    console.log("context set")
   };
 
   const onSubmit = async () => {
@@ -155,7 +163,9 @@ const FormMockInterview = ({ initial }: any) => {
           </div>
 
           <div className="w-full flex items-center justify-end">
-            <Button size={"sm"} variant={"secondary"} onClick={onSubmit}>
+            <Button size={"sm"} variant={"secondary"} onClick={() => {
+              onSubmit();
+            }}>
               {loading ? "Loading..." : "Create"}
             </Button>
           </div>
