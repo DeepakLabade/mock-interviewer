@@ -39,17 +39,14 @@ const QuestinoSection = () => {
     };
 
     return (
-      <div className="w-full min-h-96 border rounded-md p-4">
-            <Tabs
-          defaultValue={qaList[0]?.question}
-          className="w-full space-y-12"
-        >
+      <div className="w-full min-h-96 border rounded-md p-4 text-white">
+        <Tabs defaultValue={qaList[0]?.question} className="w-full space-y-12">
           <TabsList className="bg-transparent w-full flex flex-wrap items-center justify-start gap-4">
             {qaList?.map((tab: any, i: any) => (
               <TabsTrigger
-                className="data-[state=active]:bg-emerald-200 data-[state=active]:shadow-md text-xs px-2"
-                    key={tab.question}
-                    //@ts-ignore
+                className="data-[state=active]:bg-emerald-200 text-white data-[state=active]:text-black data-[state=active]:shadow-md text-xs px-2"
+                key={tab.question}
+                //@ts-ignore
                 value={tab.question}
               >
                 {`Question #${i + 1}`}
@@ -57,7 +54,7 @@ const QuestinoSection = () => {
             ))}
           </TabsList>
 
-          {qaList?.map((tab:any, i:any) => (
+          {qaList?.map((tab: any, i: any) => (
             //@ts-ignore
             <TabsContent key={i} value={tab.question}>
               <p className="text-base text-left tracking-wide text-neutral-500">
@@ -67,13 +64,13 @@ const QuestinoSection = () => {
               <div className="w-full flex items-center justify-end">
                 <div
                   content={isPlaying ? "Stop" : "Start"}
-                //   icon={
-                //     isPlaying ? (
-                //       <VolumeX className="min-w-5 min-h-5 text-muted-foreground" />
-                //     ) : (
-                //       <Volume2 className="min-w-5 min-h-5 text-muted-foreground" />
-                //     )
-                //   }
+                  //   icon={
+                  //     isPlaying ? (
+                  //       <VolumeX className="min-w-5 min-h-5 text-muted-foreground" />
+                  //     ) : (
+                  //       <Volume2 className="min-w-5 min-h-5 text-muted-foreground" />
+                  //     )
+                  //   }
                   onClick={() => handlePlayQuestion(tab.question)}
                 />
               </div>

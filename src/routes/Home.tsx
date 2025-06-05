@@ -4,7 +4,6 @@ import { Sparkles } from "lucide-react";
 
 export function Home() {
     return (
-      <div className="flex flex-col w-full pb-24 bg-[#0A0A0A] text-white">
         <Container>
           <div className="my-8">
             <h2 className="text-3xl text-center md:text-left md:text-6xl">
@@ -64,6 +63,5 @@ export function Home() {
             </div>
           </div>
         </Container>
-      </div>
     );
 }

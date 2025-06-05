@@ -11,9 +11,12 @@ import Generate from './components/Generate'
 import Dashboard from './routes/Dashboard'
 import { CreateEditPage } from './routes/CreateEditPage'
 import MockInterview from './routes/MockInterview'
+import Result from './routes/Result'
 
 function App() {
- return(
+  return (
+   
+         <div className="flex flex-col w-full min-h-screen bg-[#222222] text-white">
     <BrowserRouter>
       <Routes>
         <Route element={<PublicLayout />}>
@@ -28,14 +31,16 @@ function App() {
         <Route element={<ProtectedLayout><MainLayout /></ProtectedLayout>}>
           <Route element={<Generate />} path='/generate'>
             <Route index element={<Dashboard />} />
-            <Route path=':interviewId' element={<CreateEditPage />} />
+              <Route path=':interviewId' element={<CreateEditPage />} />
             <Route path='interview/start' element={<MockInterview />} />
+            <Route path='interview/result' element={<Result />} />
           </Route>
         </Route>
 
 
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+      </div>
  )
 }
 

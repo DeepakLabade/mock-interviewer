@@ -3,7 +3,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { CircleStop, Loader, Mic, RefreshCw, Save, Video, VideoOff, Webcam, WebcamIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useSpeechToText, { ResultType } from "react-hook-speech-to-text";
-import { useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import { TooltipButton } from "./ToolTipButton";
 import { useFeedbackContext } from "@/context/FeedbackContext";
 
@@ -24,6 +24,7 @@ const RecordAns = ({ question, isWebCam, setIsWebCam }) => {
   const { addFeedback, feedbackList, clearFeedbackList } = useFeedbackContext();
   const [isAiGenerating, setIsAiGenerating] = useState(false);
   const [aiResult, setAiResult] = useState<any>(null);
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -74,7 +75,7 @@ const RecordAns = ({ question, isWebCam, setIsWebCam }) => {
           User Answer: "${userAns}"
           Correct Answer: "${qstAns}"
           Please compare the user's answer to the correct answer, and provide a rating (from 1 to 10) based on answer quality, and offer feedback for improvement.
-          Return the result in JSON format with the fields "ratings" (number) and "feedback" (string).
+          Return the result in JSON format with the fields "ratings" (number) and "feedback" (string) and "question" (string).
         `;
 
     try {
@@ -93,6 +94,7 @@ const RecordAns = ({ question, isWebCam, setIsWebCam }) => {
       setIsAiGenerating(false);
     }
   };
+
 
   const recordNewAnswer = () => {
     setUserAnswer("");
@@ -217,20 +219,20 @@ const RecordAns = ({ question, isWebCam, setIsWebCam }) => {
         />
 
         <TooltipButton
-          content="Save Result"
+          content="show the Result"
           icon={
-            isAiGenerating ? (
-              <Loader className="min-w-5 min-h-5 animate-spin" />
-            ) : (
+            // isAiGenerating ? (
+            //   <Loader className="min-w-5 min-h-5 animate-spin" />
+            // ) : (
               <Save className="min-w-5 min-h-5" />
-            )
+            // )
           }
-          onClick={() => setOpen(!open)}
-          disbaled={!aiResult}
+          onClick={() => { navigate('/generate/interview/result') }}
+          // disbaled={!aiResult}
         />
       </div>
 
-      {feedbackList.length === 0 ? (
+      {/* {feedbackList.length === 0 ? (
         <p>No feedback collected yet.</p>
       ) : (
         <ul className="space-y-4">
@@ -248,25 +250,22 @@ const RecordAns = ({ question, isWebCam, setIsWebCam }) => {
             </li>
           ))}
         </ul>
-      )}
+      )} */}
 
-      <div className="w-full mt-4 p-4 border rounded-md bg-gray-50">
+      <div className="w-full mt-4 p-4 border rounded-md bg-[#111111]">
         <h2 className="text-lg font-semibold">Your Answer:</h2>
 
-        <p className="text-sm mt-2 text-gray-700 whitespace-normal">
+        <p className="text-sm mt-2 text-gray-100 whitespace-normal">
           {userAnswer || "Start recording to see your ansewer here"}
         </p>
 
         {interimResult && (
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-50 mt-2">
             <strong>Current Speech:</strong>
             {interimResult}
           </p>
         )}
 
-        <button onClick={clearFeedbackList}>
-          click here
-        </button>
       </div>
     </div>
   );

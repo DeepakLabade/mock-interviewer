@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 
 const MainLayout = () => {
   return (
-    <div className='flex flex-col h-screen bg-[#0a0a0a]'>
+    <div>
         <Header />
 
         <Container className="flex-grow">
@@ -15,7 +15,7 @@ const MainLayout = () => {
         </Container>
 
         <Footer />
-    </div>
+        </div>
   )
 }
 
