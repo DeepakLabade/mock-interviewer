@@ -4,12 +4,14 @@ import { Button } from "./ui/button";
 import { chatSession } from "@/scripts";
 import { useInterviewContext } from "../context/InterviewContext"
 import { QAItem } from "../context/InterviewContext";
+import { useNavigate } from "react-router-dom";
 
 // Ensure the environment variable is properly used
 // const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 const FormMockInterview = ({ initial }: any) => {
   const { setQaList } = useInterviewContext();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [aiResponse, setAiResponse] = useState(null);
@@ -67,7 +69,20 @@ const FormMockInterview = ({ initial }: any) => {
       newList.current = cleanedResponse;
       console.log(newList.current)
       //@ts-ignore
-      setQaList(cleanedResponse);
+      if (
+        Array.isArray(cleanedResponse) &&
+        cleanedResponse.length > 0 &&
+        cleanedResponse[0].question &&
+        cleanedResponse[0].answer
+      ) {
+        console.log("Setting QA List:", cleanedResponse);
+        setQaList(cleanedResponse);
+        setTimeout(() => {
+          navigate("/generate/interview/start")
+        }, 600);
+      } else {
+        console.warn("Invalid or empty QA list from AI:", cleanedResponse);
+      }
     return cleanedResponse;
     } catch (err) {
       console.error("Error:", err);

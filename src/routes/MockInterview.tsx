@@ -68,27 +68,21 @@
 
 // export default MockInterview
 
+import QuestinoSection from "@/components/QuestinoSection";
 import { useInterviewContext } from "../context/InterviewContext";
 
 const MockInterview = () => {
   const { qaList } = useInterviewContext();
+  console.log("Stored QA List in context:", qaList);
 
   return (
-    <div className="text-white">
-      <h2>Interview Questions & Answers</h2>
-      {qaList.length === 0 ? (
-        <p>No questions available {JSON.stringify(qaList)}</p>
-      ) : (
-        qaList.map((item, index) => (
-          <div key={index} style={{ marginBottom: "1rem" }}>
-            <strong>
-              Q{index + 1}: {item.question}
-            </strong>
-            <p>A: {item.answer}</p>
-          </div>
-        ))
-      )}
-    </div>
+    <QuestinoSection />
+    // <div className="mt-6">
+    //   <h2 className="text-lg text-white">Current Stored QA:</h2>
+    //   <pre className="text-white bg-gray-800 p-4 rounded">
+    //     {JSON.stringify(qaList, null, 2)}
+    //   </pre>
+    // </div>
   );
 };
 

@@ -1,7 +1,7 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import { FeedbackProvider } from './context/FeedbackContext.tsx';
 import { InterviewProvider } from './context/InterviewContext.tsx';
 
 import { ClerkProvider } from '@clerk/clerk-react'
@@ -13,9 +13,11 @@ if (!PUBLISHABLE_KEY) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <InterviewProvider>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-      <App />
-    </ClerkProvider>
-  </InterviewProvider>
+  <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <InterviewProvider>
+      <FeedbackProvider>
+        <App />
+      </FeedbackProvider>
+    </InterviewProvider>
+  </ClerkProvider>
 );

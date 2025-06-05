@@ -1,4 +1,15 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+
+export interface QAItem {
+  question: string;
+  answer: string;
+}
 
 interface InterviewContextType {
   qaList: QAItem[];
@@ -12,12 +23,27 @@ const InterviewContext = createContext<InterviewContextType | undefined>(
 export const InterviewProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [qaList, setQaList] = useState<QAItem[]>([]);
+  // Load initial qaList from localStorage if present, else empty array
+  const [qaList, setQaList] = useState<QAItem[]>(() => {
+    try {
+      const saved = localStorage.getItem("qaList");
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error("Failed to parse qaList from localStorage:", error);
+      return [];
+    }
+  });
 
+  // Whenever qaList changes, save it to localStorage
+  useEffect(() => {
+    localStorage.setItem("qaList", JSON.stringify(qaList));
+  }, [qaList]);
+
+  // Function to replace the qaList completely
   const replaceQAList = (newList: QAItem[]) => {
-    setQaList(newList); // Completely replaces the old list
+    setQaList(newList);
   };
-  
+
   return (
     <InterviewContext.Provider value={{ qaList, setQaList: replaceQAList }}>
       {children}
@@ -25,6 +51,7 @@ export const InterviewProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
+// Custom hook to use the InterviewContext easily
 export const useInterviewContext = (): InterviewContextType => {
   const context = useContext(InterviewContext);
   if (!context) {
@@ -34,9 +61,3 @@ export const useInterviewContext = (): InterviewContextType => {
   }
   return context;
 };
-
-
-export interface QAItem {
-  question: string;
-  answer: string;
-}
