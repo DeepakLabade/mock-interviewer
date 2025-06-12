@@ -6,7 +6,7 @@ export function Home() {
     <div>
       <div className="relative w-full overflow-hidden min-h-[120vh] bg-pattern">
         {/* Blurred circle in center */}
-        <div className="absolute top-1/2 left-1/2 w-[550px] h-[500px] -translate-x-1/2 -translate-y-3/4 bg-blue-300 opacity-40 rounded-full blur-3xl z-10"></div>
+        <div className="absolute top-0 left-1/2 w-[550px] h-[500px] -translate-x-1/2 bg-blue-300 opacity-40 rounded-full blur-3xl z-10"></div>
 
         {/* Content above everything */}
         <div className="relative z-20 flex pt-20 justify-center h-full">
@@ -102,6 +102,25 @@ export function Home() {
                   </div>
                 </div>
               </div>
+
+              <footer>
+                <div className="text-center pt-20 my-20 flex flex-col justify-center items-center">
+                  <div className="text-5xl font-semibold bg-gradient-to-r from-sky-600 to-blue-400 text-transparent bg-clip-text p-2">
+                    <h1 className="">Start your AI Interview Practice Today</h1>
+                  </div>
+
+                  <p className="text-xl mt-5 w-[800px] text-gray-500">
+                    Join software engineers who mastered technical interviews
+                    with our AI interviewer and landed offers at Google, Amazon,
+                    Microsoft, and other top tech companies.
+                  </p>
+
+                  <button className="px-10 py-4 shadow-2xl font-semibold bg-sky-300 rounded-xl text-xl flex gap-3 justify-center items-center mt-10">
+                    Get Started
+                    <ArrowRight strokeWidth={2} className="inline" />
+                  </button>
+                </div>
+              </footer>
             </div>
           </Container>
         </div>
