@@ -1,9 +1,8 @@
 import { useFeedbackContext } from '@/context/FeedbackContext';
-import React from 'react'
 
 const Result = () => {
 
-      const { addFeedback, feedbackList, clearFeedbackList } = useFeedbackContext();
+  const { feedbackList, clearFeedbackList } = useFeedbackContext();
     
 
   return (

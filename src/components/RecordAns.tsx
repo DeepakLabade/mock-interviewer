@@ -1,13 +1,13 @@
 import { chatSession } from "@/scripts";
 import { useAuth } from "@clerk/clerk-react";
-import { CircleStop, Loader, Mic, RefreshCw, Save, Video, VideoOff, Webcam, WebcamIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { CircleStop, Mic, RefreshCw, Save, Video, VideoOff, Webcam, WebcamIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import useSpeechToText, { ResultType } from "react-hook-speech-to-text";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TooltipButton } from "./ToolTipButton";
 import { useFeedbackContext } from "@/context/FeedbackContext";
 
-//@ts-ignore
+// @ts-ignore
 const RecordAns = ({ question, isWebCam, setIsWebCam }) => {
   const {
     interimResult,

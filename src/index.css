@@ -4,6 +4,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -126,4 +128,12 @@
                  -1px 1px 0 rgba(0, 0, 0, 0.6),
                  1px 1px 0 rgba(0, 0, 0, 0.6); 
   } */
+}
+
+.bg-pattern {
+  background-color: white;
+  background-image:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 110px 65px; /* Bigger boxes */
 }

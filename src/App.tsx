@@ -16,7 +16,7 @@ import Result from './routes/Result'
 function App() {
   return (
    
-         <div className="flex flex-col w-full min-h-screen bg-[#222222] text-white">
+         <div className="flex flex-col w-full min-h-screen">
     <BrowserRouter>
       <Routes>
         <Route element={<PublicLayout />}>
