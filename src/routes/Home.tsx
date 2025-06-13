@@ -116,7 +116,7 @@ export function Home() {
                   </p>
 
                   <button className="px-10 py-4 shadow-2xl font-semibold bg-sky-300 rounded-xl text-xl flex gap-3 justify-center items-center mt-10">
-                    Get Started
+                    Try it free
                     <ArrowRight strokeWidth={2} className="inline" />
                   </button>
                 </div>

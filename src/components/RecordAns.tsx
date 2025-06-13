@@ -252,15 +252,15 @@ const RecordAns = ({ question, isWebCam, setIsWebCam }) => {
         </ul>
       )} */}
 
-      <div className="w-full mt-4 p-4 border rounded-md bg-[#111111]">
+      <div className="w-full mt-4 p-4 border rounded-md">
         <h2 className="text-lg font-semibold">Your Answer:</h2>
 
-        <p className="text-sm mt-2 text-gray-100 whitespace-normal">
+        <p className="text-sm mt-2 whitespace-normal">
           {userAnswer || "Start recording to see your ansewer here"}
         </p>
 
         {interimResult && (
-          <p className="text-sm text-gray-50 mt-2">
+          <p className="text-sm text-gray-500 mt-2">
             <strong>Current Speech:</strong>
             {interimResult}
           </p>

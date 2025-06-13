@@ -26,7 +26,7 @@ export const CreateEditPage = () => {
   }, [interviewId])
 
   return (
-    <div className='text-white'>
+    <div>
       <FormMockInterview intial={interview} />
     </div>
   )

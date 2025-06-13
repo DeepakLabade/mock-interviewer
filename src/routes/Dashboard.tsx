@@ -11,7 +11,7 @@ const Dashboard = () => {
       <Headings title='Dashboard' description='Create and start you AI Interview' />
 
       <Link to={"/generate/create"}>
-        <Button size={"sm"} variant={'secondary'}>
+        <Button size={"sm"} variant={'outline'}>
             <Plus /> Add New 
         </Button>
       </Link>

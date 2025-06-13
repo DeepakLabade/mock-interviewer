@@ -39,12 +39,12 @@ const QuestinoSection = () => {
     };
 
     return (
-      <div className="w-full min-h-96 border rounded-md p-4 text-white">
+      <div className="w-full min-h-96 border rounded-md p-4">
         <Tabs defaultValue={qaList[0]?.question} className="w-full space-y-12">
           <TabsList className="bg-transparent w-full flex flex-wrap items-center justify-start gap-4">
             {qaList?.map((tab: any, i: any) => (
               <TabsTrigger
-                className="data-[state=active]:bg-emerald-200 text-white data-[state=active]:text-black data-[state=active]:shadow-md text-xs px-2"
+                className="data-[state=active]:bg-emerald-200 border border-slate-200 data-[state=active]:text-black data-[state=active]:shadow-md text-xs px-2"
                 key={tab.question}
                 //@ts-ignore
                 value={tab.question}

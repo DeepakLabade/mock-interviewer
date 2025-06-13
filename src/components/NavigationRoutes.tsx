@@ -15,7 +15,7 @@ const NavigationRoutes = ({isMobile = false}: navigationRoutesProps) => {
           to={route.href}
           className={({ isActive }) =>
             cn(
-              "text-base text-white",
+              "text-base font-medium",
               isActive && "text-[#6D28D9] font-semibold"
             )
           }
